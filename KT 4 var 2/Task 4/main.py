@@ -1,14 +1,16 @@
 import csv
 
 
-def read_grades_from_csv(file_path):
-    """
-    Читает данные из CSV файла и возвращает список словарей с оценками.
-    """
-    with open("grades.csv", "r") as file:
-        csvreader = csv.reader(file)
-        grades = [row for row in csvreader]
-    return grades
+def load_data_from_csv(file_path):
+    with open(file_path, encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        data = []
+        for row in reader:
+            # Преобразуем оценки и итоговую оценку в числа
+            test_scores = [float(row['test1']), float(row['test2']), float(row['test3']), float(row['test4'])]
+            final_grade = float(row['final_grade'])
+            data.append((row['name'], test_scores, final_grade))
+        return data
 
 
 def calculate_average_grade(grades):
